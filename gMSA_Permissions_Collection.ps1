@@ -3,7 +3,7 @@ Author: Kevin Joyce
 Requirements: Active Directory PowerShell module, Domain Administrator privileges (to ensure the capability to get attribute GUIDs and view all permissions on all gMSA objects)
 Description: Looks up permissions within Active Directory on a gMSA to determine access to modify the gMSA attribute (ms-ds-GroupMSAMembership).
 Usage: opuplate the $target varbiable with the samaccountname of a gMSA.
-To output the results to a text file run the following .\LAPS_Permissions_Collection.ps1 > output.txt
+To output the results to a text file run the following .\gMSA_Permissions_Collection.ps1 > output.txt
 #>
 Import-Module ActiveDirectory
 ##Get the GUID of the extended attribute ms-ds-GroupMSAMembership from Schema
@@ -12,7 +12,7 @@ Get-ADObject -SearchBase (Get-ADRootDSE).schemaNamingContext -LDAPFilter '(name=
 ForEach-Object {$schemaIDGUID.add([System.GUID]$_.schemaIDGUID,$_.name)}
 
 <# **REPLACE DN VARIABLE BELOW**
-Declare the distinguishedName of the OU to search for gMSAs within - by default this may be the Managed Service Accounts OU#>
+Declare the samaccountname of the gMSA to search for#>
 $target = 'gmsa'
 
 ##Get distinguished name of all gMSAs objects from the OU
